@@ -24,16 +24,13 @@ export default {
         const expireTimeInSeconds = 3600;
         const currentTimestamp = Math.floor(Date.now() / 1000); // Get the current timestamp in seconds
         const privilegeExpiredTs = currentTimestamp + expireTimeInSeconds;
-        return res.status(200).json({
-            AGORA_APP_ID:env?.AGORA_APP_ID??"",
-            AGORA_APP_CERTIFICATE:env?.AGORA_APP_CERTIFICATE??"",
-            channelName:channelName,
-            isPublisher:isPublisher
-        });
+
+        const AGORA_APP_ID='b5c8c3df2621406a80e2f2d616971085';
+        const AGORA_APP_CERTIFICATE='3828f58f3073421a8f5bff62f8420477';
 
         const token = ChatTokenBuilder.RtcTokenBuilder.buildTokenWithUid(
-            env.AGORA_APP_ID,
-            env.AGORA_APP_CERTIFICATE,
+            AGORA_APP_ID,
+        AGORA_APP_CERTIFICATE,
             channelName,
             0,
             (isPublisher ? ChatTokenBuilder.RtcRole.PUBLISHER  : ChatTokenBuilder.RtcRole.SUBSCRIBER),// 0 is attendee
@@ -42,6 +39,6 @@ export default {
 
         )
 
-        res.status(200).json({ token,channel:channelName,uid:0,app_id:env.AGORA_APP_ID });
+        res.status(200).json({ token,channel:channelName,uid:0,app_id:AGORA_APP_ID });
     }
 }

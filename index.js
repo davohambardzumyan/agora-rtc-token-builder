@@ -10,7 +10,7 @@ global.env = env;
 
 app.post(RTCTokenController.route,RTCTokenController.handler );
 
-app.listen(env.APP_PORT , () => {
+app.listen(3000 , () => {
     console.log(`Token server listening at http://localhost:${env.APP_PORT}`);
 });
 
