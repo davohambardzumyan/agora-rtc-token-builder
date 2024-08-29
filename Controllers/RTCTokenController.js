@@ -24,6 +24,12 @@ export default {
         const expireTimeInSeconds = 3600;
         const currentTimestamp = Math.floor(Date.now() / 1000); // Get the current timestamp in seconds
         const privilegeExpiredTs = currentTimestamp + expireTimeInSeconds;
+        return res.status(200).json({
+            AGORA_APP_ID:env.AGORA_APP_ID,
+            AGORA_APP_CERTIFICATE:env.AGORA_APP_CERTIFICATE,
+            channelName:channelName,
+            isPublisher:isPublisher
+        });
 
         const token = ChatTokenBuilder.RtcTokenBuilder.buildTokenWithUid(
             env.AGORA_APP_ID,
