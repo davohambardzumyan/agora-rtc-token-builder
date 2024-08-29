@@ -25,8 +25,8 @@ export default {
         const currentTimestamp = Math.floor(Date.now() / 1000); // Get the current timestamp in seconds
         const privilegeExpiredTs = currentTimestamp + expireTimeInSeconds;
         return res.status(200).json({
-            AGORA_APP_ID:env.AGORA_APP_ID,
-            AGORA_APP_CERTIFICATE:env.AGORA_APP_CERTIFICATE,
+            AGORA_APP_ID:env?.AGORA_APP_ID??"",
+            AGORA_APP_CERTIFICATE:env?.AGORA_APP_CERTIFICATE??"",
             channelName:channelName,
             isPublisher:isPublisher
         });
