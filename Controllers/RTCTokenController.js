@@ -35,6 +35,7 @@ export default {
             privilegeExpiredTs
 
         )
-        res.json({ token });
+
+        res.status(200).json({ token,channel:channelName,uid:0,app_id:env.AGORA_APP_ID });
     }
 }
