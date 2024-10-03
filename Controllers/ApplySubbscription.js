@@ -35,7 +35,12 @@ export default {
 
         if(error){
             return res.status(400).json({
-                'error':"Supabase query failed"
+                'error':{
+                    message:"Supabase query failed",
+                    description: error,
+                    request_body:req.body,
+                    request:req
+                }
             });
         }
 
@@ -49,8 +54,14 @@ export default {
 
         if(err){
             return res.status(400).json({
-                'error':"Users query failed"
+                'error':{
+                    message:"Users query failed",
+                    description: err,
+                    request_body:req.body,
+                    request:req
+                }
             });
+
         }
 
         if(!err && !error){
