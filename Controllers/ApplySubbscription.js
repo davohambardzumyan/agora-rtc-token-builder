@@ -13,18 +13,22 @@ export default {
 
 
         const data = req.body;
+        data.purchase = typeof data.purchase === "string" ? JSON.parse(data.purchase) : data.purchase;
+
         const now = new Date();
-        const date = now.toLocaleDateString();
-        const time = now.toLocaleTimeString();
         const nextMonth = new Date(now);
         nextMonth.setMonth(now.getMonth() + 1);
+
+        const formatDate = (date) => {
+            return date.toISOString();
+        };
 
         const {error} = await supabase
             .from('subscriptions')
             .insert({
                 orig_tx_id: data?.purchase?.orderId,
-                current_period_start: `${date} ${time}`,
-                current_period_end: `${nextMonth.toLocaleDateString()} ${time}`,
+                current_period_start: formatDate(now),
+                current_period_end: formatDate(now),
                 token: data.purchase.purchaseToken,
                 uid: data.userId,
                 product_id: 'premium_monthly',
@@ -38,8 +42,7 @@ export default {
                 'error':{
                     message:"Supabase query failed",
                     description: error,
-                    request_body:req.body,
-                    request:req
+                    request_body:data,
                 }
             });
         }
@@ -53,12 +56,12 @@ export default {
             .eq('uid', data.userId)
 
         if(err){
+
             return res.status(400).json({
                 'error':{
                     message:"Users query failed",
                     description: err,
-                    request_body:req.body,
-                    request:req
+                    request_body:data,
                 }
             });
 
