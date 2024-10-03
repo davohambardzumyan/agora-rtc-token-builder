@@ -5,6 +5,13 @@ export default {
     handler:async (req, res) => {
         const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
+        if(!supabase){
+            return res.status(400).json({
+                'error':"Client not created"
+            });
+        }
+
+
         const data = req.body;
         const now = new Date();
         const date = now.toLocaleDateString();
@@ -26,6 +33,12 @@ export default {
                 status: 'TRUE',
             })
 
+        if(error){
+            return res.status(400).json({
+                'error':"Supabase query failed"
+            });
+        }
+
         const { err } = await supabase
             .from('users')
             .update({
@@ -34,16 +47,14 @@ export default {
             })
             .eq('uid', data.userId)
 
+        if(err){
+            return res.status(400).json({
+                'error':"Users query failed"
+            });
+        }
+
         if(!err && !error){
             return  res.status(200).json('success');
-        }
-
-        if(err){
-            return  res.status(500).json('Something went wrong, users table');
-        }
-        if(error){
-            return  res.status(500).json('Something went wrong, subscription table');
-
         }
     }
 
