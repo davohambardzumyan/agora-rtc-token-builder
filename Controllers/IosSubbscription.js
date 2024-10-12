@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
 export default {
-    route:'/verify-subscription',
+    route:'/verify-subscription-ios',
     handler:async (req, res) => {
         const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
@@ -22,14 +22,13 @@ export default {
         const formatDate = (date) => {
             return date.toISOString();
         };
-
         const {error} = await supabase
             .from('subscriptions')
             .insert({
-                orig_tx_id: data?.purchase?.orderId,
+                orig_tx_id: data?.transactionId,
                 current_period_start: formatDate(now),
                 current_period_end: formatDate(now),
-                token: data.purchase.purchaseToken,
+                token: data.purchase.transactionIdentifier,
                 uid: data.userId,
                 product_id: 'premium_monthly',
                 latest_receipt: '',
@@ -51,7 +50,8 @@ export default {
             .from('users')
             .update({
                 subscription_status: 'premium',
-                is_premium: 1
+                is_premium: 1,
+                slides_count: 1000000,
             })
             .eq('uid', data.userId)
 
