@@ -28,7 +28,7 @@ export default {
                 orig_tx_id: data?.transactionId,
                 current_period_start: formatDate(now),
                 current_period_end: formatDate(now),
-                token: data?.transactionId,
+                token: data?.purchase?.transactionIdentifier,
                 uid: data.userId,
                 product_id: 'premium_monthly',
                 latest_receipt: '',
@@ -37,7 +37,7 @@ export default {
             })
 
         if(error){
-            return res.status(400).json({
+            return res.status(409).json({
                 'error':{
                     message:"Supabase query failed",
                     description: error,
@@ -57,7 +57,7 @@ export default {
 
         if(err){
 
-            return res.status(400).json({
+            return res.status(410).json({
                 'error':{
                     message:"Users query failed",
                     description: err,
