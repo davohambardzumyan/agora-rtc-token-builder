@@ -29,7 +29,7 @@ export default {
                 orig_tx_id: data?.purchase?.orderId,
                 current_period_start: formatDate(now),
                 current_period_end: formatDate(now),
-                token: data.purchase.purchaseToken,
+                token: data?.purchase?.purchaseToken,
                 uid: data.userId,
                 product_id: 'premium_monthly',
                 latest_receipt: '',

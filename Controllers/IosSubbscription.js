@@ -28,7 +28,7 @@ export default {
                 orig_tx_id: data?.transactionId,
                 current_period_start: formatDate(now),
                 current_period_end: formatDate(now),
-                token: "2000000732634738",
+                token: data?.purchase?.transactionIdentifier,
                 uid: data.userId,
                 product_id: 'premium_monthly',
                 latest_receipt: '',
