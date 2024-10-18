@@ -12,7 +12,7 @@ export default {
         }
 
 
-        const data = req;
+        const data = req.body;
 
         data.purchase = typeof data.purchase === "string" ? JSON.parse(data.purchase) : data.purchase;
 
