@@ -51,7 +51,8 @@ export default {
             .from('users')
             .update({
                 subscription_status: 'premium',
-                is_premium: 1
+                is_premium: 1,
+                slides_count: 1000000
             })
             .eq('uid', data.userId)
 
