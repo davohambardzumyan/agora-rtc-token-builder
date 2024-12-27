@@ -13,7 +13,12 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
     "agora-token": "^2.0.3",
+    "axios": "^1.7.8",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "spotify-web-api-node": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/qs": "^6.9.17"
   }
 }
