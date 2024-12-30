@@ -3,25 +3,40 @@ import axios from "axios";
 
 const app = express();
 
-const CLIENT_KEY = "awno2kcens1vaa4g"; // Replace with your TikTok Client Key
-const CLIENT_SECRET = "FG9zD37gqNi1CRI1XmFxZFiNrpa3wlMm"; // Replace with your TikTok Client Secret
-const REDIRECT_URI = "http://localhost:3000/callback"; // Replace with your redirect URI
 
-// Step 1: Redirect user to TikTok authorization page
-
+// The redirect URI you set in TikTok Developer Portal
+const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URL;
+console.log(REDIRECT_URI)
 export default {
-    route:'/auth',
-    handler: (req,res) => {
-        console.log(res.status)
-        console.log(req)
-        app.get("/auth", (req, res) => {
-            console.log(444)
-            const authUrl = `https://www.tiktok.com/v2/auth/authorize?client_key=${CLIENT_KEY}&response_type=code&scope=user.info.basic&redirect_uri=${encodeURIComponent(
-                REDIRECT_URI
-            )}&state=uniqueState123`;
-            console.log(authUrl)
-            return res.redirect(authUrl);
-        });
+    route: '/auth/accounts/',
+    handler: async (req, res) => {
+        const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URL;
+        const TIKTOK_CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY;
+        const TIKTOK_CLIENT_SECRET = process.env.TIKTOK_CLIENT_SECRET;
+        // const csrfState = Math.random().toString(36).substring(2);
 
+        const scope = 'user.info.basic,video.list';  // Add required scopes
+        const state = generateRandomString(36) // Generate random statec
+        // Store state in session/database to verify later
+        // req.session.tiktokState = state;
+        // Build TikTok authorization URL
+        const authUrl = `https://www.tiktok.com/v2/auth/authorize?` +
+            `client_key=${TIKTOK_CLIENT_KEY}` +
+            `&scope=${scope}` +
+            `&response_type=code` +
+            `&state=${state}` +
+            `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+        // Return the auth URL to mobile app
+        return res.send( authUrl);
+        // return res.redirect(authUrl)
     }
 }
+
+function generateRandomString(length = 36) {
+    let result = '';
+    while (result.length < length) {
+      result += Math.random().toString(36).substring(2); // Generate random string
+    }
+    return result.substring(0, length); // Trim to the desired length
+  }
+  

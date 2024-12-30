@@ -1,0 +1,12 @@
+[ 
+       {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.isotope.app",
+      "sha256_cert_fingerprints": [
+        "34:51:5F:B1:4C:08:52:28:84:C0:3C:7C:D5:E4:6C:2A:70:C8:6D:30:49:27:14:15:4C:00:E6:C1:38:F5:F2:6E"
+      ]
+    }
+  }
+]
