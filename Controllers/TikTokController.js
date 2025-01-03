@@ -27,7 +27,7 @@ export default {
             `&state=${state}` +
             `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
         // Return the auth URL to mobile app
-        return res.send( authUrl);
+        return res.json( authUrl);
         // return res.redirect(authUrl)
     }
 }
