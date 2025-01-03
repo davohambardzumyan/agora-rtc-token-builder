@@ -1,17 +1,18 @@
 import express from "express";
+import axios from "axios";
 
 const app = express();
 
 
 // The redirect URI you set in TikTok Developer Portal
-const REDIRECT_URI = env.TIKTOK_REDIRECT_URL;
+const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URL;
 console.log(REDIRECT_URI)
 export default {
     route: '/auth/accounts/',
     handler: async (req, res) => {
-        const REDIRECT_URI = env.TIKTOK_REDIRECT_URL;
-        const TIKTOK_CLIENT_KEY = env.TIKTOK_CLIENT_KEY;
-        const TIKTOK_CLIENT_SECRET = env.TIKTOK_CLIENT_SECRET;
+        const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URL;
+        const TIKTOK_CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY;
+        const TIKTOK_CLIENT_SECRET = process.env.TIKTOK_CLIENT_SECRET;
         // const csrfState = Math.random().toString(36).substring(2);
 
         const scope = 'user.info.basic,video.list';  // Add required scopes
