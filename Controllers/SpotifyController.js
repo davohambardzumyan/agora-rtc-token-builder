@@ -2,63 +2,31 @@ import SpotifyWebApi from "spotify-web-api-node"
 import qs from 'qs';
 import axios from 'axios';
 
-export default{
-    route:'/spotify-get-access-token',
-    handler:async (req, res) => {
+export default {
+    route: '/spotify-login',
+    handler: async (req, res) => {
+
+        const redirect_uri = process.env.SPOTIFY_REDIRECT_URL;
+        const scopes = ['user-read-recently-played'];
 
         const client_id = process.env.SPOTIFY_CLIENT_ID;
         const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-        const data = qs.stringify({
-            'grant_type':'client_credentials'
+        const generateRandomString = (length) => {
+            const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            return Array.from({ length }, () => possible.charAt(Math.floor(Math.random() * possible.length))).join('');
+        };
+
+        const state = generateRandomString(16);
+
+        const authQueryParameters = new URLSearchParams({
+            response_type: 'code',
+            client_id: client_id,
+            scope: scopes.join(' '),
+            redirect_uri: redirect_uri,
+            state: state
         });
-        let scope = 'grant_type=client_credentials';
-        const auth_token = Buffer.from(`${client_id}:${client_secret}`, 'utf-8').toString('base64');
-
-        const response = await axios({
-            method:'POST',
-            data:{
-                grant_type: "client_credentials",
-                scope: "user-read-private user-read-email",
-                device_id:'bae918adcc819d48'
-            },
-            url:'https://accounts.spotify.com/api/token',
-            headers: { 
-                'Authorization': `Basic ${auth_token}`,
-                'Content-Type': 'application/x-www-form-urlencoded' 
-            }
-        });
-
-        const a = await fetch(`https://api.spotify.com/v1/me`, {
-            headers: {
-              'Authorization': `Bearer ${response.data.access_token}`
-            }
-          }).then(r=>r.json());
-          console.log(a);
-          return;
-
-
-        const queryParams = qs.stringify({
-            limit: 3,
-            after: '1484811043508',
-            scope:'app-remote-control,user-modify-playback-state,playlist-read-private'
-          });
-
-          const url = `https://api.spotify.com/v1/me/player/recently-played?${queryParams}`;
-          const token = response.data.access_token;
-
-        
-
-            const resp = await axios.get(url,{
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    
-                  }
-            });
-                console.log(resp)
-                return resp.data
-        
-
-        
+    
+        return res.json( `https://accounts.spotify.com/authorize?${authQueryParameters.toString()}`);
     }
 }
