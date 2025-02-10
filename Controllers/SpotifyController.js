@@ -7,7 +7,7 @@ export default {
     handler: async (req, res) => {
 
         const redirect_uri = process.env.SPOTIFY_REDIRECT_URL;
-        const scopes = ['user-read-recently-played'];
+        const scopes = ['user-read-recently-played user-read-playback-state user-modify-playback-state streaming'];
 
         const client_id = process.env.SPOTIFY_CLIENT_ID;
         const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
