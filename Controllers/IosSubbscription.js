@@ -29,7 +29,7 @@ export default {
                 current_period_start: formatDate(now),
                 current_period_end: formatDate(now),
                 token: data?.purchase?.data.userId,
-                uid: data.userId,
+                uid: data?.purchase?.data.userId,
                 product_id: 'premium_monthly',
                 latest_receipt: '',
                 app: data.appType,
